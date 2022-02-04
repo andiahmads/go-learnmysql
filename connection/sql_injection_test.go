@@ -44,3 +44,23 @@ func TestSqlInjections(t *testing.T) {
 	}
 
 }
+
+func TestInsertWithParameters(t *testing.T) {
+	db := GetConnection()
+
+	defer db.Close()
+	ctx := context.Background()
+
+	username := "andi"
+	password := "andi"
+
+	sql := "INSERT INTO user(username, password) VALUES (?,?)"
+
+	_, err := db.ExecContext(ctx, sql, username, password)
+	if err != nil {
+		defer db.Close()
+	} else {
+		fmt.Println("insert success!")
+	}
+
+}
